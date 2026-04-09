@@ -26,8 +26,11 @@ from functools import lru_cache
 from mcp.server.fastmcp import FastMCP
 
 # ─── SERVER SETUP ───────────────────────────────────────────
-mcp = FastMCP("Islamic Books & Quran Reference Library")
-
+mcp = FastMCP(
+    "Islamic Books & Quran Reference Library",
+    host="0.0.0.0",
+    port=int(os.environ.get("PORT", 8000))
+)
 # ─── DATA LOADING (cached for performance) ──────────────────
 
 DATA_DIR = os.path.dirname(__file__)
@@ -804,6 +807,6 @@ INSTRUCTIONS:
 # ─── RUN ──────────────────────────────────────────────────────
 if __name__ == "__main__":
     if "PORT" in os.environ:
-        mcp.run(transport="sse", host="0.0.0.0", port=int(os.environ["PORT"]))
+        mcp.run(transport="sse")
     else:
         mcp.run()
