@@ -31,9 +31,8 @@ mcp = FastMCP(
     "Islamic Books & Quran Reference Library",
     host="0.0.0.0",
     port=int(os.environ.get("PORT", 8000)),
-    streamable_http_path="/mcp",
+    stateless_http=True,
 )
-
 
 
 # ─── DATA LOADING (cached for performance) ──────────────────
@@ -811,52 +810,7 @@ INSTRUCTIONS:
 
 # ─── RUN ──────────────────────────────────────────────────────
 if __name__ == "__main__":
-    import uvicorn
-    from starlette.applications import Starlette
-    from starlette.routing import Route
-
-    transport = os.environ.get("MCP_TRANSPORT", "streamable-http" if "PORT" in os.environ else "stdio")
-
-    if transport == "stdio":
-        mcp.run(transport="stdio")
+    if "PORT" in os.environ:
+        mcp.run(transport="streamable-http")
     else:
-        # --- Custom HTTP routes ---
-        async def server_card_handler(request):
-            return JSONResponse({
-                "schemaVersion": "0.1.0",
-                "name": "islamic-books",
-                "description": "Islamic Books & Quran Reference Library — 1,900+ books from AMI Bookstore",
-                "transport": {"type": "streamable-http", "url": "/mcp"}
-            })
-
-        async def health_handler(request):
-            return JSONResponse({"status": "ok"})
-
-        # --- Build the MCP streamable-http handler ---
-        from mcp.server.streamable_http_manager import StreamableHTTPSessionManager
-        from mcp.server.streamable_http import StreamableHTTPASGIApp
-
-        session_manager = StreamableHTTPSessionManager(
-            app=mcp._mcp_server,
-            event_store=mcp._event_store,
-            json_response=mcp.settings.json_response,
-            stateless=mcp.settings.stateless_http,
-        )
-        mcp_handler = StreamableHTTPASGIApp(session_manager)
-
-        # --- Assemble all routes ---
-        routes = [
-            Route("/.well-known/mcp/server-card.json", endpoint=server_card_handler, methods=["GET"]),
-            Route("/health", endpoint=health_handler, methods=["GET"]),
-            Route("/mcp", endpoint=mcp_handler),
-        ]
-
-        app = Starlette(
-            routes=routes,
-            lifespan=lambda app: session_manager.run(),
-        )
-
-        host = "0.0.0.0"
-        port = int(os.environ.get("PORT", 8000))
-        print(f"Starting MCP server on {host}:{port} with {transport} transport", flush=True)
-        uvicorn.run(app, host=host, port=port)
+        mcp.run()
