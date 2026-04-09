@@ -820,5 +820,6 @@ INSTRUCTIONS:
 
 if __name__ == "__main__":
     import os
-    port = int(os.environ.get("PORT", 8000))
-    mcp.run(transport="streamable-http", host="0.0.0.0", port=port)
+    mcp._host = "0.0.0.0"
+    mcp._port = int(os.environ.get("PORT", 8000))
+    mcp.run(transport="streamable-http")
