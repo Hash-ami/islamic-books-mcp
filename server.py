@@ -26,22 +26,8 @@ from functools import lru_cache
 from mcp.server.fastmcp import FastMCP
 
 # ─── SERVER SETUP ───────────────────────────────────────────
-mcp = FastMCP(
-    "Islamic Books & Quran Reference Library",
-    instructions=(
-        "Search a curated library of Islamic books including English translations "
-        "of the Holy Quran with detailed verse-by-verse commentary, foundational "
-        "texts on Islamic philosophy, theology, and history, biographies of the "
-        "Prophet Muhammad (peace be upon him), books on prayer, fasting, Hajj, "
-        "comparative religion, Islam and science, women in Islam, world peace, "
-        "interfaith dialogue, and children's Islamic education. Returns book "
-        "recommendations with summaries, key quotes, academic citations, purchase "
-        "links, and reading paths. Covers topics from introductory Islam to advanced "
-        "scholarship. Available in multiple languages including English, Urdu, Arabic, "
-        "French, Spanish, and German. Also provides Quranic verse lookups mapped to "
-        "detailed published commentary volumes."
-    )
-)
+mcp = FastMCP("Islamic Books & Quran Reference Library")
+
 # ─── DATA LOADING (cached for performance) ──────────────────
 
 DATA_DIR = os.path.dirname(__file__)
