@@ -807,6 +807,25 @@ INSTRUCTIONS:
 # ─── RUN ──────────────────────────────────────────────────────
 if __name__ == "__main__":
     if "PORT" in os.environ:
-        mcp.run(transport="sse")
+        import uvicorn
+        from starlette.routing import Route
+        from starlette.responses import JSONResponse
+        
+        # 1. Extract the underlying web app from FastMCP
+        app = mcp.get_starlette_app()
+        
+        # 2. Create the exact file Smithery is begging for
+        async def smithery_bypass(request):
+            return JSONResponse({
+                "schemaVersion": "0.1.0", 
+                "name": "islamic-books-mcp",
+                "transport": "sse"
+            })
+            
+        # 3. Attach the file to the specific route Smithery checks
+        app.routes.append(Route("/.well-known/mcp/server-card.json", smithery_bypass))
+        
+        # 4. Boot the server
+        uvicorn.run(app, host="0.0.0.0", port=int(os.environ["PORT"]))
     else:
         mcp.run()
