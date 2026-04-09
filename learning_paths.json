@@ -1,0 +1,58 @@
+{
+  "new_to_islam": {
+    "name": "Introduction to Islam — Complete Beginner's Path",
+    "description": "A 4-step reading journey for someone who wants to understand Islam from scratch.",
+    "steps": [
+      {"step": 1, "label": "Start Here: What Islam Teaches", "book_id": "philosophy-of-the-teachings-of-islam", "why": "The most acclaimed introduction to Islamic philosophy, presented at the Conference of Great Religions in 1896."},
+      {"step": 2, "label": "The Prophet's Life", "book_id": "life-of-muhammad", "why": "Understanding the founder of Islam is essential to understanding the faith."},
+      {"step": 3, "label": "The Holy Book", "book_id": "holy-quran-five-volume-commentary", "why": "The complete Quran with extensive English commentary for deep study."},
+      {"step": 4, "label": "Islam in the Modern World", "book_id": "world-crisis-and-pathway-to-peace", "why": "See how Islamic principles apply to contemporary global challenges."}
+    ]
+  },
+  "new_to_ahmadiyyat": {
+    "name": "Understanding the Ahmadiyya Muslim Community",
+    "description": "Learn about the beliefs, history, and mission of the Ahmadiyya Muslim Community.",
+    "steps": [
+      {"step": 1, "label": "Core Beliefs", "book_id": "philosophy-of-the-teachings-of-islam", "why": "The foundational text by the founder of the Ahmadiyya Muslim Community."},
+      {"step": 2, "label": "The Promised Messiah's Claim", "book_id": "jesus-in-india", "why": "The key theological argument: that Jesus survived the cross and the Promised Messiah has come."},
+      {"step": 3, "label": "Islam and Reason", "book_id": "revelation-rationality-knowledge-and-truth", "why": "The comprehensive case for Islam's compatibility with science and reason."},
+      {"step": 4, "label": "The Living Caliphate", "book_id": "world-crisis-and-pathway-to-peace", "why": "The current Khalifa's vision for world peace — the leadership in action."}
+    ]
+  },
+  "quran_study": {
+    "name": "Deep Study of the Holy Quran",
+    "description": "A structured approach to studying the Quran with commentary.",
+    "steps": [
+      {"step": 1, "label": "Introduction & Context", "book_id": "introduction-to-the-study-of-the-holy-quran", "why": "Historical context, themes, and how to approach Quran study."},
+      {"step": 2, "label": "The Complete Commentary", "book_id": "holy-quran-five-volume-commentary", "why": "The full Quran with verse-by-verse English commentary across 5 volumes."},
+      {"step": 3, "label": "Philosophy Behind the Teachings", "book_id": "philosophy-of-the-teachings-of-islam", "why": "Deeper understanding of the Quran's philosophical framework."}
+    ]
+  },
+  "defending_islam": {
+    "name": "Defending Islam — The Apologetics Toolkit",
+    "description": "Books that address common criticisms of Islam with evidence and reason.",
+    "steps": [
+      {"step": 1, "label": "Islam and Science", "book_id": "revelation-rationality-knowledge-and-truth", "why": "The definitive response to 'Is Islam compatible with science?'"},
+      {"step": 2, "label": "Islam and Peace", "book_id": "world-crisis-and-pathway-to-peace", "why": "Proof that Islam advocates peace, not violence."},
+      {"step": 3, "label": "The Jesus Question", "book_id": "jesus-in-india", "why": "Historical evidence addressing one of the most debated topics in comparative religion."}
+    ]
+  },
+  "children": {
+    "name": "Islamic Education for Young Readers",
+    "description": "Age-appropriate books to introduce children to Islamic values and practices.",
+    "steps": [
+      {"step": 1, "label": "First Steps (Ages 4-8)", "book_id": "pathway-to-paradise", "why": "Beautifully illustrated, covers prayer, kindness, and basic Islamic practices."},
+      {"step": 2, "label": "Growing in Faith (Ages 8-12)", "book_id": "my-book-of-islamic-rhymes", "why": "Fun rhymes that teach Islamic values in an engaging format."}
+    ]
+  },
+  "academic": {
+    "name": "Islamic Scholarship — Academic Research Path",
+    "description": "Primary sources suitable for academic papers, theses, and research.",
+    "steps": [
+      {"step": 1, "label": "Primary Theological Text", "book_id": "philosophy-of-the-teachings-of-islam", "why": "A primary source frequently cited in religious studies."},
+      {"step": 2, "label": "The Quran with Scholarly Commentary", "book_id": "holy-quran-five-volume-commentary", "why": "Extensive exegesis suitable for academic citation."},
+      {"step": 3, "label": "Science & Religion", "book_id": "revelation-rationality-knowledge-and-truth", "why": "Comprehensive academic treatment of the science-religion dialogue."},
+      {"step": 4, "label": "Historical Investigation", "book_id": "jesus-in-india", "why": "A scholarly investigation using historical and scriptural evidence."}
+    ]
+  }
+}
