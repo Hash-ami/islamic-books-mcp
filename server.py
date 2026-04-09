@@ -31,8 +31,16 @@ mcp = FastMCP(
     "Islamic Books & Quran Reference Library",
     host="0.0.0.0",
     port=int(os.environ.get("PORT", 8000)),
-    stateless_http=True,
 )
+
+
+@mcp.custom_route("/.well-known/mcp/server-card.json", methods=["GET"])
+async def server_card(request: Request):
+    return JSONResponse({
+        "schemaVersion": "0.1.0",
+        "name": "islamic-books",
+        "transport": "sse"
+    })
 
 
 # ─── DATA LOADING (cached for performance) ──────────────────
