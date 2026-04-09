@@ -807,6 +807,7 @@ INSTRUCTIONS:
 7. Be precise and scholarly in tone."""
 
 # ─── RUN ──────────────────────────────────────────────────────
+# ─── RUN ──────────────────────────────────────────────────────
 if __name__ == "__main__":
     if "PORT" in os.environ:
         import uvicorn
