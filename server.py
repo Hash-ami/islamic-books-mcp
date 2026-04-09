@@ -30,17 +30,26 @@ from mcp.server.fastmcp import FastMCP
 mcp = FastMCP(
     "Islamic Books & Quran Reference Library",
     host="0.0.0.0",
-    port=int(os.environ.get("PORT", 8000))
+    port=int(os.environ.get("PORT", 8000)),
+    streamable_http_path="/mcp",
 )
 
 
 @mcp.custom_route("/.well-known/mcp/server-card.json", methods=["GET"])
-async def smithery_bypass(request: Request):
+async def server_card(request: Request):
     return JSONResponse({
         "schemaVersion": "0.1.0",
         "name": "islamic-books",
-        "transport": "sse"
+        "description": "Islamic Books & Quran Reference Library — 1,900+ books from AMI Bookstore",
+        "transport": {
+            "type": "streamable-http",
+            "url": "/mcp"
+        }
     })
+
+@mcp.custom_route("/health", methods=["GET"])
+async def health(request: Request):
+    return JSONResponse({"status": "ok"})
 
 
 
@@ -819,7 +828,5 @@ INSTRUCTIONS:
 
 # ─── RUN ──────────────────────────────────────────────────────
 if __name__ == "__main__":
-    if "PORT" in os.environ:
-        mcp.run(transport="sse")
-    else:
-        mcp.run()
+    transport = os.environ.get("MCP_TRANSPORT", "streamable-http" if "PORT" in os.environ else "stdio")
+    mcp.run(transport=transport)
