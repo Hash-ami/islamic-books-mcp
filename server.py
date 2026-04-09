@@ -19,14 +19,31 @@ The official bookstore of the Ahmadiyya Muslim Community USA.
 - True Islam campaign companion
 - Quote & hook summaries with key excerpts
 """
-
+from starlette.requests import Request
+from starlette.responses import JSONResponse
 import json
 import os
 from functools import lru_cache
 from mcp.server.fastmcp import FastMCP
 
 # ─── SERVER SETUP ───────────────────────────────────────────
-mcp = FastMCP("Islamic Books & Quran Reference Library")
+mcp = FastMCP(
+    "Islamic Books & Quran Reference Library",
+    host="0.0.0.0",
+    port=int(os.environ.get("PORT", 8000))
+)
+
+
+@mcp.custom_route("/.well-known/mcp/server-card.json", methods=["GET"])
+async def smithery_bypass(request: Request):
+    return JSONResponse({
+        "schemaVersion": "0.1.0",
+        "name": "islamic-books",
+        "transport": "sse"
+    })
+
+
+
 # ─── DATA LOADING (cached for performance) ──────────────────
 
 DATA_DIR = os.path.dirname(__file__)
@@ -802,4 +819,7 @@ INSTRUCTIONS:
 
 # ─── RUN ──────────────────────────────────────────────────────
 if __name__ == "__main__":
-    mcp.run()
+    if "PORT" in os.environ:
+        mcp.run(transport="sse")
+    else:
+        mcp.run()
