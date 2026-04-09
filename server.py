@@ -29,6 +29,8 @@ from mcp.server.fastmcp import FastMCP
 # ─── SERVER SETUP ───────────────────────────────────────────
 mcp = FastMCP(
     "Islamic Books & Quran Reference Library",
+    host="0.0.0.0",
+    port=int(os.environ.get("PORT", 8000)),
     stateless_http=True,
 )
 
