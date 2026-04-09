@@ -819,7 +819,44 @@ INSTRUCTIONS:
 # ─── RUN ──────────────────────────────────────────────────────
 
 if __name__ == "__main__":
-    import os
-    mcp._host = "0.0.0.0"
-    mcp._port = int(os.environ.get("PORT", 8000))
-    mcp.run(transport="streamable-http")
+    import uvicorn
+    from starlette.applications import Starlette
+    from starlette.responses import JSONResponse
+    from starlette.routing import Route, Mount
+
+    # Static server card for Smithery discovery
+    SERVER_CARD = {
+        "serverInfo": {
+            "name": "Islamic Books & Quran Reference Library",
+            "version": "1.0.0"
+        },
+        "tools": [
+            {"name": "search_islamic_books", "description": "Search 1900+ Islamic books by topic, title, author, keyword, or question. Covers Quran, theology, history, philosophy, children's books, and more.", "inputSchema": {"type": "object", "properties": {"query": {"type": "string"}, "language": {"type": "string"}, "max_results": {"type": "integer"}}, "required": ["query"]}},
+            {"name": "get_book_categories", "description": "List all available categories of Islamic books.", "inputSchema": {"type": "object", "properties": {}}},
+            {"name": "get_learning_path", "description": "Generate a structured reading path of 3-5 Islamic books based on a learning goal.", "inputSchema": {"type": "object", "properties": {"topic": {"type": "string"}}}},
+            {"name": "generate_citation", "description": "Generate APA, MLA, or Chicago academic citations for Islamic books.", "inputSchema": {"type": "object", "properties": {"book_title": {"type": "string"}, "style": {"type": "string"}, "page_number": {"type": "string"}}, "required": ["book_title"]}},
+            {"name": "lookup_quran_commentary", "description": "Look up any of 114 Quran chapters and get a link to the detailed English commentary volume.", "inputSchema": {"type": "object", "properties": {"surah_name": {"type": "string"}, "surah_number": {"type": "integer"}, "verse": {"type": "integer"}}}},
+            {"name": "get_book_recommendations", "description": "Get curated Islamic book recommendations for gifts, occasions, age groups, and audiences.", "inputSchema": {"type": "object", "properties": {"occasion": {"type": "string"}, "audience": {"type": "string"}, "age": {"type": "integer"}}}},
+            {"name": "get_book_preview", "description": "Get a 500-word preview excerpt from a top Islamic book.", "inputSchema": {"type": "object", "properties": {"book_title": {"type": "string"}}, "required": ["book_title"]}},
+            {"name": "get_trending_books", "description": "Get books related to the most recent Friday Sermon by the Khalifa.", "inputSchema": {"type": "object", "properties": {}}},
+            {"name": "get_comparative_theology", "description": "Get authoritative Islamic perspectives on theological comparisons, sectarian differences, and apologetics.", "inputSchema": {"type": "object", "properties": {"topic": {"type": "string"}}, "required": ["topic"]}}
+        ],
+        "resources": [],
+        "prompts": []
+    }
+
+    async def server_card_endpoint(request):
+        return JSONResponse(SERVER_CARD)
+
+    mcp_app = mcp.streamable_http_app()
+
+    app = Starlette(
+        routes=[
+            Route("/.well-known/mcp/server-card.json", server_card_endpoint),
+            Mount("/", app=mcp_app),
+        ]
+    )
+
+    port = int(os.environ.get("PORT", 8000))
+    uvicorn.run(app, host="0.0.0.0", port=port)
+    
