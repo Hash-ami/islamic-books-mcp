@@ -1,1 +1,1 @@
-web: pip install uv && uv run server.py
+web: pip install mcp pydantic python-dotenv sse-starlette starlette uvicorn && python server.py
