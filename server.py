@@ -807,34 +807,8 @@ INSTRUCTIONS:
 7. Be precise and scholarly in tone."""
 
 # ─── RUN ──────────────────────────────────────────────────────
-# ─── RUN ──────────────────────────────────────────────────────
 if __name__ == "__main__":
     if "PORT" in os.environ:
-        import uvicorn
-        from starlette.middleware.cors import CORSMiddleware
-
-        app = mcp.streamable_http_app()
-
-        print("Registered routes:", flush=True)
-        for route in app.routes:
-            print(f"  {route}", flush=True)
-
-        app.add_middleware(
-            CORSMiddleware,
-            allow_origins=["*"],
-            allow_credentials=True,
-            allow_methods=["GET", "POST", "OPTIONS", "DELETE"],
-            allow_headers=["*"],
-            expose_headers=["mcp-session-id", "mcp-protocol-version"],
-            max_age=86400,
-        )
-
-        port = int(os.environ.get("PORT", 8000))
-        print(f"MCP server starting on 0.0.0.0:{port}", flush=True)
-
-        config = uvicorn.Config(app, host="0.0.0.0", port=port)
-        server = uvicorn.Server(config)
-        import asyncio
-        asyncio.run(server.serve())
+        mcp.run(transport="sse")
     else:
         mcp.run()
