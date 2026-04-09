@@ -28,6 +28,8 @@ from mcp.server.fastmcp import FastMCP
 # ─── SERVER SETUP ───────────────────────────────────────────
 mcp = FastMCP(
     "Islamic Books & Quran Reference Library",
+    host="0.0.0.0",
+    port=int(os.environ.get("PORT", 8000)),
     instructions=(
         "Search a curated library of Islamic books including English translations "
         "of the Holy Quran with detailed verse-by-verse commentary, foundational "
@@ -819,10 +821,6 @@ INSTRUCTIONS:
 # ─── RUN ──────────────────────────────────────────────────────
 if __name__ == "__main__":
     if "PORT" in os.environ:
-        # Running on Railway — public internet via SSE
-        mcp._host = "0.0.0.0"
-        mcp._port = int(os.environ["PORT"])
         mcp.run(transport="sse")
     else:
-        # Running locally — Claude Desktop via stdio
         mcp.run()
