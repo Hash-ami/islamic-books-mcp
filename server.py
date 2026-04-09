@@ -29,8 +29,6 @@ from mcp.server.fastmcp import FastMCP
 # ─── SERVER SETUP ───────────────────────────────────────────
 mcp = FastMCP(
     "Islamic Books & Quran Reference Library",
-    host="0.0.0.0",
-    port=int(os.environ.get("PORT", 8000)),
     stateless_http=True,
 )
 
@@ -811,6 +809,22 @@ INSTRUCTIONS:
 # ─── RUN ──────────────────────────────────────────────────────
 if __name__ == "__main__":
     if "PORT" in os.environ:
-        mcp.run(transport="streamable-http")
+        import uvicorn
+        from starlette.middleware.cors import CORSMiddleware
+
+        app = mcp.streamable_http_app()
+        app.add_middleware(
+            CORSMiddleware,
+            allow_origins=["*"],
+            allow_credentials=True,
+            allow_methods=["GET", "POST", "OPTIONS"],
+            allow_headers=["*"],
+            expose_headers=["mcp-session-id", "mcp-protocol-version"],
+            max_age=86400,
+        )
+
+        port = int(os.environ.get("PORT", 8000))
+        print(f"MCP server starting on 0.0.0.0:{port}", flush=True)
+        uvicorn.run(app, host="0.0.0.0", port=port)
     else:
         mcp.run()
