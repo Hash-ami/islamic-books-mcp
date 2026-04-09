@@ -811,12 +811,9 @@ if __name__ == "__main__":
     if "PORT" in os.environ:
         import uvicorn
         from starlette.middleware.cors import CORSMiddleware
-        from starlette.routing import Route
-        from starlette.responses import JSONResponse as StarletteJSONResponse
 
         app = mcp.streamable_http_app()
 
-        # Debug: log what routes exist
         print("Registered routes:", flush=True)
         for route in app.routes:
             print(f"  {route}", flush=True)
@@ -833,6 +830,10 @@ if __name__ == "__main__":
 
         port = int(os.environ.get("PORT", 8000))
         print(f"MCP server starting on 0.0.0.0:{port}", flush=True)
-        uvicorn.run(app, host="0.0.0.0", port=port, log_level="debug")
+
+        config = uvicorn.Config(app, host="0.0.0.0", port=port)
+        server = uvicorn.Server(config)
+        import asyncio
+        asyncio.run(server.serve())
     else:
         mcp.run()

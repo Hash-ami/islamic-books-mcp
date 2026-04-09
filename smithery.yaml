@@ -1,0 +1,8 @@
+startCommand:
+  type: stdio
+  config:
+    command: uv
+    args:
+      - run
+      - server.py
+      
