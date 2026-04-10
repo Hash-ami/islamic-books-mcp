@@ -19,20 +19,17 @@ The official bookstore of the Ahmadiyya Muslim Community USA.
 - True Islam campaign companion
 - Quote & hook summaries with key excerpts
 """
+import os
+from mcp.server.fastmcp import FastMCP
 from starlette.requests import Request
 from starlette.responses import JSONResponse
-import json
-import os
-from functools import lru_cache
-from mcp.server.fastmcp import FastMCP
 
 # ─── SERVER SETUP ───────────────────────────────────────────
 mcp = FastMCP(
     "Islamic Books & Quran Reference Library",
     host="0.0.0.0",
-    port=int(os.environ.get("PORT", 8000)),
+    port=int(os.environ.get("PORT", 8080))
 )
-
 
 @mcp.custom_route("/.well-known/mcp/server-card.json", methods=["GET"])
 async def server_card(request: Request):
@@ -819,9 +816,6 @@ INSTRUCTIONS:
 # ─── RUN ──────────────────────────────────────────────────────
 if __name__ == "__main__":
     if "PORT" in os.environ:
-        import uvicorn
-        app = mcp.sse_app()
-        port = int(os.environ.get("PORT", 8000))
-        uvicorn.run(app, host="0.0.0.0", port=port)
+        mcp.run(transport="sse")
     else:
         mcp.run()
