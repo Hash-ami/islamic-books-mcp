@@ -34,13 +34,6 @@ mcp = FastMCP(
     port=int(os.environ.get("PORT", 8080))
 )
 
-@mcp.custom_route("/.well-known/mcp/server-card.json", methods=["GET"])
-async def server_card(request: Request):
-    return JSONResponse({
-        "schemaVersion": "0.1.0",
-        "name": "islamic-books",
-        "transport": "sse"
-    })
 # ─── SERVER SETUP ───────────────────────────────────────────
 
 # ─── DATA LOADING (cached for performance) ──────────────────
@@ -817,8 +810,9 @@ INSTRUCTIONS:
 7. Be precise and scholarly in tone."""
 
 # ─── RUN ──────────────────────────────────────────────────────
+# ─── RUN ──────────────────────────────────────────────────────
 if __name__ == "__main__":
     if "PORT" in os.environ:
-        mcp.run(transport="sse")
+        mcp.run(transport="http")
     else:
         mcp.run()
