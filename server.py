@@ -20,11 +20,14 @@ The official bookstore of the Ahmadiyya Muslim Community USA.
 - Quote & hook summaries with key excerpts
 """
 import os
+import json
+from functools import lru_cache
+from typing import List, Dict, Any, Optional
+
 from mcp.server.fastmcp import FastMCP
 from starlette.requests import Request
 from starlette.responses import JSONResponse
 
-# ─── SERVER SETUP ───────────────────────────────────────────
 mcp = FastMCP(
     "Islamic Books & Quran Reference Library",
     host="0.0.0.0",
@@ -38,7 +41,7 @@ async def server_card(request: Request):
         "name": "islamic-books",
         "transport": "sse"
     })
-
+# ─── SERVER SETUP ───────────────────────────────────────────
 
 # ─── DATA LOADING (cached for performance) ──────────────────
 
